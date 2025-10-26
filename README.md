@@ -21,12 +21,9 @@
 
 ## 3. 프로젝트 구조
 
+<img width="898" height="677" alt="libspear2" src="https://github.com/user-attachments/assets/2776068d-4f23-4d38-8d31-6c3c5306e6c8" />
 
-## 4. 주요 코드 파일 설명
-
-
-
-## 5. 설치 및 설정
+## 4. 설치 및 설정
 
 1.  **필요 도구 설치 및 실행**
     
@@ -73,7 +70,7 @@
     GENERATE_FINAL_REPORT=true
     ```
 
-## 6. 실행 방법
+## 5. 실행 방법
 
 모든 설정이 완료되면, 프로젝트 루트 디렉토리에서 다음 명령어를 통해 프로그램을 시작합니다.
 
@@ -83,7 +80,7 @@ python3 run.py
 
 실행이 완료되면, 시뮬레이션 중간 결과물인 `interactive_report_*.json` 파일들과 함께, 최종적으로 분석 내용이 정리된 **`Vulnerability_Report.md`** 파일이 루트 디렉토리에 생성됩니다.
 
-## 7. 실험 수행 결과
+## 6. 실험 수행 결과
 
 - **성공/실패 보고서 현황 (`interactive_report_*.json`)**
   - `interactive_report_1`, `4`, `6`, `7` : 취약점 발견 및 입력 생성 성공
@@ -91,9 +88,9 @@ python3 run.py
  - `interactive_report_3` : 권한 오류로 인한 실패  
  - `interactive_report_5` : 입력 전처리 및 환경 제약으로 인해 실패
 
-## 8. 기타
+## 7. 기타
 \> Libspear 연구계획서 
-(https://naver.me/x0X7n6mN) password : 2024
+(https://naver.me/x0X7n6mN) `password : 2024`
 
-\> thanks for contribute
-bmcyber, oxqnd
+\> thank you for your contribution
+`bmcyber, oxqnd`
