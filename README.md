@@ -27,11 +27,12 @@
 
 1.  **필요 도구 설치 및 실행**
     
-    ```bash
-    # Python 3 및 pip
-    # Node.js
-    pip install -r requirements.txt
-    ```
+```batch
+python3 run.py 3 rude b --mode interactive
+```
+interactive
+python3 run.py --mode interactive
+```
     
     **또한, Joern 서버가 실행 중이어야 합니다.** (예: `docker-compose up -d`)
 
