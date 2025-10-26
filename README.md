@@ -37,7 +37,7 @@ interactive
 python3 run.py --mode interactive
 ```
     
-    **또한, Joern 서버가 실행 중이어야 합니다.** (예: `docker-compose up -d`)
+**또한, Joern 서버가 실행 중이어야 합니다.** (예: `docker-compose up -d`)
 
 2.  **환경 변수 설정 (`.env`)**
 
