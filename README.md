@@ -27,9 +27,12 @@
 
 1.  **필요 도구 설치 및 실행**
     
-```batch
-python3 run.py 3 rude b --mode interactive
 ```
+batch
+python3 run.py --mode batch
+or
+python3 run.py
+
 interactive
 python3 run.py --mode interactive
 ```
