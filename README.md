@@ -26,16 +26,12 @@
 ## 4. 설치 및 설정
 
 1.  **필요 도구 설치 및 실행**
-    
-```
-batch
-python3 run.py --mode batch
-or
-python3 run.py
 
-interactive
-python3 run.py --mode interactive
-```
+  ```bash
+    # Python 3 및 pip
+    # Node.js
+    pip install -r requirements.txt
+```  
     
 **또한, Joern 서버가 실행 중이어야 합니다.** (예: `docker-compose up -d`)
 
@@ -78,8 +74,14 @@ python3 run.py --mode interactive
 
 모든 설정이 완료되면, 프로젝트 루트 디렉토리에서 다음 명령어를 통해 프로그램을 시작합니다.
 
-```bash
+```
+batch
+python3 run.py --mode batch
+or
 python3 run.py
+
+interactive
+python3 run.py --mode interactive
 ```
 
 실행이 완료되면, 시뮬레이션 중간 결과물인 `interactive_report_*.json` 파일들과 함께, 최종적으로 분석 내용이 정리된 **`Vulnerability_Report.md`** 파일이 루트 디렉토리에 생성됩니다.
