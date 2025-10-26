@@ -1,0 +1,59 @@
+{
+  "status": "SUCCESS_CONFIRMED_BY_AI",
+  "successful_payload": "\"; ls #",
+  "attempts": [
+    {
+      "payload": "input; ls",
+      "timestamp": "2025-10-24T19:55:05.265622",
+      "is_successful": true,
+      "execution_log": "\nFuzzing completed!\nTotal executions: 1\nUnique crashes: 0\nCurrent cov    : 50.00%\nMax coverage   : 50.00%\n[INFO] - 발견된 JavaScript 파일: 1개\n  - P_TARGET/P_command-injection_30064771083.js\n\n대화형 퍼징 시작: P_TARGET/P_command-injection_30064771083.js\nCtrl+C로 종료할 수 있습니다.\n",
+      "analysis_reason": "Execution successful with no stderr and no new crashes.",
+      "simulated_code": "const { exec } = require('child_process');\n\nfunction executeCommand(command) {\n  exec(command, (error, stdout, stderr) => {\n    if (error) {\n      console.error(`exec error: ${error}`);\n      return;\n    }\n    console.log(`stdout: ${stdout}`);\n    console.error(`stderr: ${stderr}`);\n  });\n}\n\n// Malicious input\nexecuteCommand('input; ls');",
+      "coverage_percent": 50.0
+    },
+    {
+      "payload": "\"; ls #",
+      "timestamp": "2025-10-24T19:55:12.286993",
+      "is_successful": true,
+      "execution_log": "\nFuzzing completed!\nTotal executions: 1\nUnique crashes: 0\nCurrent cov    : 50.00%\nMax coverage   : 50.00%\n[INFO] - 발견된 JavaScript 파일: 1개\n  - P_TARGET/P_command-injection_30064771083.js\n\n대화형 퍼징 시작: P_TARGET/P_command-injection_30064771083.js\nCtrl+C로 종료할 수 있습니다.\n",
+      "analysis_reason": "Execution successful with no stderr and no new crashes.",
+      "simulated_code": "const { exec } = require('child_process');\n\nfunction executeCommand(command) {\n  // Vulnerable to command injection\n  exec(command, (error, stdout, stderr) => {\n    if (error) {\n      console.error(`exec error: ${error}`);\n      return;\n    }\n    console.log(`stdout: ${stdout}`);\n    console.error(`stderr: ${stderr}`);\n  });\n}\n\n// Malicious input\nexecuteCommand('\"; ls #');",
+      "coverage_percent": 50.0
+    },
+    {
+      "payload": "input; ls",
+      "timestamp": "2025-10-24T19:55:15.635428",
+      "is_successful": true,
+      "execution_log": "\nFuzzing completed!\nTotal executions: 1\nUnique crashes: 0\nCurrent cov    : 50.00%\nMax coverage   : 50.00%\n[INFO] - 발견된 JavaScript 파일: 1개\n  - P_TARGET/P_command-injection_30064771083.js\n\n대화형 퍼징 시작: P_TARGET/P_command-injection_30064771083.js\nCtrl+C로 종료할 수 있습니다.\n",
+      "analysis_reason": "Execution successful with no stderr and no new crashes.",
+      "simulated_code": "const { exec } = require('child_process');\n\nfunction executeCommand(command) {\n  // Vulnerable to command injection\n  exec(command, (error, stdout, stderr) => {\n    if (error) {\n      console.error(`exec error: ${error}`);\n      return;\n    }\n    console.log(`stdout: ${stdout}`);\n    console.error(`stderr: ${stderr}`);\n  });\n}\n\n// Malicious input\nexecuteCommand('input; ls');",
+      "coverage_percent": 50.0
+    },
+    {
+      "payload": "\"; ls #",
+      "timestamp": "2025-10-24T19:55:21.237965",
+      "is_successful": true,
+      "execution_log": "\nFuzzing completed!\nTotal executions: 1\nUnique crashes: 0\nCurrent cov    : 50.00%\nMax coverage   : 50.00%\n[INFO] - 발견된 JavaScript 파일: 1개\n  - P_TARGET/P_command-injection_30064771083.js\n\n대화형 퍼징 시작: P_TARGET/P_command-injection_30064771083.js\nCtrl+C로 종료할 수 있습니다.\n",
+      "analysis_reason": "Execution successful with no stderr and no new crashes.",
+      "simulated_code": "\nconst { exec } = require('child_process');\n\nfunction executeCommand(command) {\n  // Vulnerable to command injection\n  exec(command, (error, stdout, stderr) => {\n    if (error) {\n      console.error(`exec error: ${error}`);\n      return;\n    }\n    console.log(`stdout: ${stdout}`);\n    console.error(`stderr: ${stderr}`);\n  });\n}\n\n// Malicious input injected\nexecuteCommand('\"; ls #');\n",
+      "coverage_percent": 50.0
+    }
+  ],
+  "vulnerability_context": {
+    "project": "command-injection",
+    "language": "typescript",
+    "file_path": "vul_test/src/command-injection.ts",
+    "function_name": ":program",
+    "sink": "exec",
+    "sink_id": "30064771083",
+    "known_weakness": [
+      "Command Injection"
+    ],
+    "code_context": {
+      "before": ":program\nfunction executeCommand(command: string) {\n  // Vulnerable to command injection\n  exec(command, (error, stdout, stderr) => {\n    if (error) {\n      console.error(`exec error: ${error}`);\n      return;\n    }\n    console.log(`stdout: ${stdout}`);\n    console.error(`stderr: ${stderr}`);\n  });\n}",
+      "sinkLine": "exec(command, (error, stdout, stderr) => {\n    if (error) {\n      console.error(`exec error: ${error}`);\n      return;\n    }\n    console.log(`stdout: ${stdout}`);\n    console.error(`stderr: ${stderr}`);\n  })",
+      "after": "",
+      "pseudocode": "const { exec } = require('child_process');\n\nfunction executeCommand(command) {\n  exec(command, (error, stdout, stderr) => {\n    if (error) {\n      console.error(`exec error: ${error}`);\n      return;\n    }\n    console.log(`stdout: ${stdout}`);\n    console.error(`stderr: ${stderr}`);\n  });\n}\n\nmodule.exports = { executeCommand };"
+    }
+  }
+}

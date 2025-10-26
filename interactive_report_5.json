@@ -1,0 +1,32 @@
+{
+  "status": "STOPPED_BY_AI",
+  "successful_payload": null,
+  "attempts": [
+    {
+      "payload": "json\n{\"rce\":\"console.log('Exploit triggered')\"}",
+      "timestamp": "2025-10-24T19:56:05.952662",
+      "is_successful": false,
+      "execution_log": "Deserializing: json\n{\"rce\":\"console.log('Exploit triggered')\"}\n\nFuzzing completed!\nTotal executions: 1\nUnique crashes: 1\nCurrent cov    : 100.00%\nMax coverage   : 100.00%\n[INFO] - 발견된 JavaScript 파일: 1개\n  - P_TARGET/P_insecure-deserialization_30064771205.js\n\n대화형 퍼징 시작: P_TARGET/P_insecure-deserialization_30064771205.js\nCtrl+C로 종료할 수 있습니다.\n",
+      "analysis_reason": "Fuzzer reported a crash in function 'unsafeDeserialize': Unexpected token 'j', \"json\n{\"rce\"... is not valid JSON",
+      "simulated_code": "function unsafeDeserialize(jsonString) {\n    console.log('Deserializing:', jsonString);\n    const obj = JSON.parse(jsonString);\n\n    // In a vulnerable scenario, a library might do something like this:\n    if (obj.rce) {\n        eval(obj.rce);\n    }\n\n    console.log('Deserialized object:', obj);\n    return obj;\n}\n\n// Simulated attack\nunsafeDeserialize('{\"rce\":\"console.log(\\'Exploit triggered\\')\"}');",
+      "coverage_percent": 100.0
+    }
+  ],
+  "vulnerability_context": {
+    "project": "insecure-deserialization",
+    "language": "typescript",
+    "file_path": "vul_test/src/insecure-deserialization.ts",
+    "function_name": "unsafeDeserialize",
+    "sink": "parse",
+    "sink_id": "30064771205",
+    "known_weakness": [
+      "Insecure Deserialization"
+    ],
+    "code_context": {
+      "before": "function unsafeDeserialize(jsonString: string) {\n    console.log('Deserializing:', jsonString);\n    const obj = JSON.parse(jsonString);\n\n    // In a vulnerable scenario, a library might do something like this:\n    // if (obj.rce) {\n    //   eval(obj.rce);\n    // }\n\n    console.log('Deserialized object:', obj);\n    return obj;\n}",
+      "sinkLine": "JSON.parse(jsonString)",
+      "after": "",
+      "pseudocode": "function unsafeDeserialize(jsonString) {\n    console.log('Deserializing:', jsonString);\n    const obj = JSON.parse(jsonString);\n    console.log('Deserialized object:', obj);\n    return obj;\n}\n\nmodule.exports = {\n    unsafeDeserialize\n};"
+    }
+  }
+}

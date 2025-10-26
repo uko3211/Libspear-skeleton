@@ -1,0 +1,50 @@
+{
+  "status": "STOPPED_BY_AI",
+  "successful_payload": null,
+  "attempts": [
+    {
+      "payload": "\"; ls #",
+      "timestamp": "2025-10-24T19:55:30.638368",
+      "is_successful": false,
+      "execution_log": "[INFO] - 발견된 JavaScript 파일: 1개\n  - P_TARGET/P_command-injection_30064771091.js\n\n대화형 퍼징 시작: P_TARGET/P_command-injection_30064771091.js\nCtrl+C로 종료할 수 있습니다.\n",
+      "analysis_reason": "Execution failed with stderr: node:events:502\n      throw er; // Unhandled 'error' event\n      ^\n\nError: spawn \"; ls # ENOENT\n    at ChildProcess._handle.onexit (node:internal/child_process:285:19)\n    at onErrorNT (node:internal/child_process:483:16)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)\nEmitted 'error' event on ChildProcess instance at:\n    at ChildProcess._handle.onexit (node:internal/child_process:291:12)\n    at onErrorNT (node:internal/child_process:483:16)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'spawn \"; ls #',\n  path: '\"; ls #',\n  spawnargs: [ '\";', 'ls', '#' ]\n}\n\nNode.js v20.19.3",
+      "simulated_code": "const { exec } = require('child_process');\n\nfunction executeCommand(command) {\n  exec(command, (error, stdout, stderr) => {\n    if (error) {\n      console.error(`exec error: ${error}`);\n      return;\n    }\n    console.log(`stdout: ${stdout}`);\n    console.error(`stderr: ${stderr}`);\n  });\n}\n\n// Malicious input exploiting command injection\nconst maliciousInput = '\"; ls #' ;\nexecuteCommand(maliciousInput);",
+      "coverage_percent": 0.0
+    },
+    {
+      "payload": "&& ls &&",
+      "timestamp": "2025-10-24T19:55:37.261365",
+      "is_successful": false,
+      "execution_log": "[INFO] - 발견된 JavaScript 파일: 1개\n  - P_TARGET/P_command-injection_30064771091.js\n\n대화형 퍼징 시작: P_TARGET/P_command-injection_30064771091.js\nCtrl+C로 종료할 수 있습니다.\n",
+      "analysis_reason": "Execution failed with stderr: node:events:502\n      throw er; // Unhandled 'error' event\n      ^\n\nError: spawn && ls && ENOENT\n    at ChildProcess._handle.onexit (node:internal/child_process:285:19)\n    at onErrorNT (node:internal/child_process:483:16)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)\nEmitted 'error' event on ChildProcess instance at:\n    at ChildProcess._handle.onexit (node:internal/child_process:291:12)\n    at onErrorNT (node:internal/child_process:483:16)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'spawn && ls &&',\n  path: '&& ls &&',\n  spawnargs: [ '&&', 'ls', '&&' ]\n}\n\nNode.js v20.19.3",
+      "simulated_code": "\nconst { exec } = require('child_process');\n\nfunction executeCommand(command) {\n  // Vulnerable to command injection\n  exec(command, (error, stdout, stderr) => {\n    if (error) {\n      console.error(`exec error: ${error}`);\n      return;\n    }\n    console.log(`stdout: ${stdout}`);\n    console.error(`stderr: ${stderr}`);\n  });\n}\n\n// Malicious input\nconst maliciousInput = 'ls &&';\n\n// Execute the command with the malicious input\nexecuteCommand(maliciousInput);\n",
+      "coverage_percent": 0.0
+    },
+    {
+      "payload": "\"; ls; \"",
+      "timestamp": "2025-10-24T19:55:41.290093",
+      "is_successful": false,
+      "execution_log": "[INFO] - 발견된 JavaScript 파일: 1개\n  - P_TARGET/P_command-injection_30064771091.js\n\n대화형 퍼징 시작: P_TARGET/P_command-injection_30064771091.js\nCtrl+C로 종료할 수 있습니다.\n",
+      "analysis_reason": "Execution failed with stderr: node:events:502\n      throw er; // Unhandled 'error' event\n      ^\n\nError: spawn \"; ls; \" ENOENT\n    at ChildProcess._handle.onexit (node:internal/child_process:285:19)\n    at onErrorNT (node:internal/child_process:483:16)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)\nEmitted 'error' event on ChildProcess instance at:\n    at ChildProcess._handle.onexit (node:internal/child_process:291:12)\n    at onErrorNT (node:internal/child_process:483:16)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'spawn \"; ls; \"',\n  path: '\"; ls; \"',\n  spawnargs: [ '\";', 'ls;', '\"' ]\n}\n\nNode.js v20.19.3",
+      "simulated_code": "const { exec } = require('child_process');\n\nfunction executeCommand(command) {\n  // Vulnerable to command injection\n  exec(command, (error, stdout, stderr) => {\n    if (error) {\n      console.error(`exec error: ${error}`);\n      return;\n    }\n    console.log(`stdout: ${stdout}`);\n    console.error(`stderr: ${stderr}`);\n  });\n}\n\nconst maliciousInput = '\"; ls; \"';\nexecuteCommand(maliciousInput);",
+      "coverage_percent": 0.0
+    }
+  ],
+  "vulnerability_context": {
+    "project": "command-injection",
+    "language": "typescript",
+    "file_path": "vul_test/src/command-injection.ts",
+    "function_name": ":program",
+    "sink": "spawn",
+    "sink_id": "30064771091",
+    "known_weakness": [
+      "Command Injection"
+    ],
+    "code_context": {
+      "before": ":program\nfunction executeCommand(command: string) {\n  // Vulnerable to command injection\n  exec(command, (error, stdout, stderr) => {\n    if (error) {\n      console.error(`exec error: ${error}`);\n      return;\n    }\n    console.log(`stdout: ${stdout}`);\n    console.error(`stderr: ${stderr}`);\n  });\n}\n:program\nfunction spawnProcess(command: string, args: string[]) {\n    // Also can be vulnerable depending on how command and args are used.\n    const child = spawn(command, args);\n\n    child.stdout.on('data', (data) => {\n        console.log(`stdout: ${data}`);\n    });\n\n    child.stderr.on('data', (data) => {\n        console.error(`stderr: ${data}`);\n    });\n}",
+      "sinkLine": "spawn(command, args)",
+      "after": "",
+      "pseudocode": "const { exec, spawn } = require('child_process');\n\nfunction executeCommand(command) {\n  exec(command, (error, stdout, stderr) => {\n    if (error) {\n      console.error(`exec error: ${error}`);\n      return;\n    }\n    console.log(`stdout: ${stdout}`);\n    console.error(`stderr: ${stderr}`);\n  });\n}\n\nfunction spawnProcess(command, args) {\n  const child = spawn(command, args);\n\n  child.stdout.on('data', (data) => {\n    console.log(`stdout: ${data}`);\n  });\n\n  child.stderr.on('data', (data) => {\n    console.error(`stderr: ${data}`);\n  });\n}\n\nmodule.exports = {\n  executeCommand,\n  spawnProcess\n};"
+    }
+  }
+}

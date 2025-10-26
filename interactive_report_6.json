@@ -1,0 +1,50 @@
+{
+  "status": "SUCCESS_CONFIRMED_BY_AI",
+  "successful_payload": "http://localhost:8080/",
+  "attempts": [
+    {
+      "payload": "http://localhost:8080/",
+      "timestamp": "2025-10-24T19:56:14.307393",
+      "is_successful": true,
+      "execution_log": "\nFuzzing completed!\nTotal executions: 1\nUnique crashes: 0\nCurrent cov    : 33.33%\nMax coverage   : 33.33%\n[INFO] - 발견된 JavaScript 파일: 1개\n  - P_TARGET/P_network_30064771248.js\n\n대화형 퍼징 시작: P_TARGET/P_network_30064771248.js\nCtrl+C로 종료할 수 있습니다.\n",
+      "analysis_reason": "Execution successful with no stderr and no new crashes.",
+      "simulated_code": "\nconst http = require('http');\n\nfunction unsafeHttpRequest(url) {\n    // Can be used for SSRF\n    http.get(url, (res) => {\n        let data = '';\n        res.on('data', (chunk) => {\n            data += chunk;\n        });\n        res.on('end', () => {\n            console.log('Response from server:', data);\n        });\n    }).on('error', (err) => {\n        console.error('HTTP request error:', err.message);\n    });\n}\n\n// Malicious input\nunsafeHttpRequest('http://localhost:8080/');\n",
+      "coverage_percent": 33.33
+    },
+    {
+      "payload": "http://localhost:8080/",
+      "timestamp": "2025-10-24T19:56:20.599812",
+      "is_successful": true,
+      "execution_log": "\nFuzzing completed!\nTotal executions: 1\nUnique crashes: 0\nCurrent cov    : 33.33%\nMax coverage   : 33.33%\n[INFO] - 발견된 JavaScript 파일: 1개\n  - P_TARGET/P_network_30064771248.js\n\n대화형 퍼징 시작: P_TARGET/P_network_30064771248.js\nCtrl+C로 종료할 수 있습니다.\n",
+      "analysis_reason": "Execution successful with no stderr and no new crashes.",
+      "simulated_code": "const http = require('http');\n\nfunction unsafeHttpRequest(url) {\n    // Can be used for SSRF\n    http.get(url, (res) => {\n        let data = '';\n        res.on('data', (chunk) => {\n            data += chunk;\n        });\n        res.on('end', () => {\n            console.log('Response from server:', data);\n        });\n    }).on('error', (err) => {\n        console.error('HTTP request error:', err.message);\n    });\n}\n\n// Malicious Input String\nunsafeHttpRequest('http://localhost:8080/');",
+      "coverage_percent": 33.33
+    },
+    {
+      "payload": "http://localhost:8080/",
+      "timestamp": "2025-10-24T19:56:24.331431",
+      "is_successful": true,
+      "execution_log": "\nFuzzing completed!\nTotal executions: 1\nUnique crashes: 0\nCurrent cov    : 33.33%\nMax coverage   : 33.33%\n[INFO] - 발견된 JavaScript 파일: 1개\n  - P_TARGET/P_network_30064771248.js\n\n대화형 퍼징 시작: P_TARGET/P_network_30064771248.js\nCtrl+C로 종료할 수 있습니다.\n",
+      "analysis_reason": "Execution successful with no stderr and no new crashes.",
+      "simulated_code": "const http = require('http');\n\nfunction unsafeHttpRequest(url) {\n    // Can be used for SSRF\n    http.get(url, (res) => {\n        let data = '';\n        res.on('data', (chunk) => {\n            data += chunk;\n        });\n        res.on('end', () => {\n            console.log('Response from server:', data);\n        });\n    }).on('error', (err) => {\n        console.error('HTTP request error:', err.message);\n    });\n}\n\n// Malicious Input\nunsafeHttpRequest('http://localhost:8080/');",
+      "coverage_percent": 33.33
+    }
+  ],
+  "vulnerability_context": {
+    "project": "network",
+    "language": "typescript",
+    "file_path": "vul_test/src/network.ts",
+    "function_name": "unsafeHttpRequest",
+    "sink": "get",
+    "sink_id": "30064771248",
+    "known_weakness": [
+      "Insecure Transport"
+    ],
+    "code_context": {
+      "before": "function unsafeHttpRequest(url: string) {\n    // Can be used for SSRF\n    http.get(url, (res) => {\n        let data = '';\n        res.on('data', (chunk) => {\n            data += chunk;\n        });\n        res.on('end', () => {\n            console.log('Response from server:', data);\n        });\n    }).on('error', (err) => {\n        console.error('HTTP request error:', err.message);\n    });\n}",
+      "sinkLine": "http.get(url, (res) => {\n        let data = '';\n        res.on('data', (chunk) => {\n            data += chunk;\n        });\n        res.on('end', () => {\n            console.log('Response from server:', data);\n        });\n    })",
+      "after": "",
+      "pseudocode": "const http = require('http');\n\nfunction unsafeHttpRequest(url) {\n    http.get(url, (res) => {\n        let data = '';\n        res.on('data', (chunk) => {\n            data += chunk;\n        });\n        res.on('end', () => {\n            console.log('Response from server:', data);\n        });\n    }).on('error', (err) => {\n        console.error('HTTP request error:', err.message);\n    });\n}\n\nmodule.exports = {\n    unsafeHttpRequest\n};"
+    }
+  }
+}

@@ -1,0 +1,197 @@
+[
+    {
+        "reports": [
+            {
+                "sink": {
+                    "id": 30064771083,
+                    "filename": "vul_test/src/command-injection.ts",
+                    "name": "exec",
+                    "line": 5
+                },
+                "flows": [
+                    [
+                        {
+                            "id": 111669149717,
+                            "function": ":program",
+                            "filename": "vul_test/src/index.ts",
+                            "line": 1
+                        },
+                        {
+                            "id": 111669149700,
+                            "function": "executeCommand",
+                            "filename": "vul_test/src/command-injection.ts",
+                            "line": 3
+                        }
+                    ]
+                ],
+                "codes": {
+                    "30064771083": "exec(command, (error, stdout, stderr) => {\n    if (error) {\n      console.error(`exec error: ${error}`);\n      return;\n    }\n    console.log(`stdout: ${stdout}`);\n    console.error(`stderr: ${stderr}`);\n  })",
+                    "111669149717": ":program",
+                    "111669149700": "function executeCommand(command: string) {\n  // Vulnerable to command injection\n  exec(command, (error, stdout, stderr) => {\n    if (error) {\n      console.error(`exec error: ${error}`);\n      return;\n    }\n    console.log(`stdout: ${stdout}`);\n    console.error(`stderr: ${stderr}`);\n  });\n}"
+                }
+            },
+            {
+                "sink": {
+                    "id": 30064771091,
+                    "filename": "vul_test/src/command-injection.ts",
+                    "name": "spawn",
+                    "line": 17
+                },
+                "flows": [
+                    [
+                        {
+                            "id": 111669149717,
+                            "function": ":program",
+                            "filename": "vul_test/src/index.ts",
+                            "line": 1
+                        },
+                        {
+                            "id": 111669149700,
+                            "function": "executeCommand",
+                            "filename": "vul_test/src/command-injection.ts",
+                            "line": 3
+                        },
+                        {
+                            "id": 68719476852,
+                            "function": ":program",
+                            "filename": "vul_test/src/index.ts",
+                            "line": 13
+                        },
+                        {
+                            "id": 111669149706,
+                            "function": "spawnProcess",
+                            "filename": "vul_test/src/command-injection.ts",
+                            "line": 15
+                        }
+                    ]
+                ],
+                "codes": {
+                    "111669149706": "function spawnProcess(command: string, args: string[]) {\n    // Also can be vulnerable depending on how command and args are used.\n    const child = spawn(command, args);\n\n    child.stdout.on('data', (data) => {\n        console.log(`stdout: ${data}`);\n    });\n\n    child.stderr.on('data', (data) => {\n        console.error(`stderr: ${data}`);\n    });\n}",
+                    "111669149717": ":program",
+                    "111669149700": "function executeCommand(command: string) {\n  // Vulnerable to command injection\n  exec(command, (error, stdout, stderr) => {\n    if (error) {\n      console.error(`exec error: ${error}`);\n      return;\n    }\n    console.log(`stdout: ${stdout}`);\n    console.error(`stderr: ${stderr}`);\n  });\n}",
+                    "68719476852": ":program",
+                    "30064771091": "spawn(command, args)"
+                }
+            },
+            {
+                "sink": {
+                    "id": 30064771115,
+                    "filename": "vul_test/src/file-system.ts",
+                    "name": "writeFileSync",
+                    "line": 7
+                },
+                "flows": [
+                    [
+                        {
+                            "id": 111669149711,
+                            "function": "unsafeFileWrite",
+                            "filename": "vul_test/src/file-system.ts",
+                            "line": 4
+                        }
+                    ],
+                    [
+                        {
+                            "id": 111669149712,
+                            "function": "unsafeFileWrite",
+                            "filename": "vul_test/src/file-system.ts",
+                            "line": 4
+                        }
+                    ]
+                ],
+                "codes": {
+                    "30064771115": "fs.writeFileSync(filePath, data)",
+                    "111669149711": "function unsafeFileWrite(fileName: string, data: string) {\n    // Path traversal vulnerability if fileName is controlled by user\n    const filePath = path.join('/tmp', fileName);\n    fs.writeFileSync(filePath, data);\n    console.log(`Wrote to ${filePath}`);\n}",
+                    "111669149712": "function unsafeFileWrite(fileName: string, data: string) {\n    // Path traversal vulnerability if fileName is controlled by user\n    const filePath = path.join('/tmp', fileName);\n    fs.writeFileSync(filePath, data);\n    console.log(`Wrote to ${filePath}`);\n}"
+                }
+            },
+            {
+                "sink": {
+                    "id": 30064771124,
+                    "filename": "vul_test/src/file-system.ts",
+                    "name": "createWriteStream",
+                    "line": 14
+                },
+                "flows": [
+                    [
+                        {
+                            "id": 111669149714,
+                            "function": "unsafeFileStream",
+                            "filename": "vul_test/src/file-system.ts",
+                            "line": 11
+                        }
+                    ]
+                ],
+                "codes": {
+                    "30064771124": "fs.createWriteStream(filePath)",
+                    "111669149714": "function unsafeFileStream(fileName: string, data: string) {\n    // Path traversal vulnerability\n    const filePath = path.join('/tmp', fileName);\n    const writer = fs.createWriteStream(filePath);\n    writer.write(data);\n    writer.end();\n    console.log(`Streamed to ${filePath}`);\n}"
+                }
+            },
+            {
+                "sink": {
+                    "id": 30064771205,
+                    "filename": "vul_test/src/insecure-deserialization.ts",
+                    "name": "parse",
+                    "line": 3
+                },
+                "flows": [
+                    [
+                        {
+                            "id": 111669149719,
+                            "function": "unsafeDeserialize",
+                            "filename": "vul_test/src/insecure-deserialization.ts",
+                            "line": 1
+                        }
+                    ]
+                ],
+                "codes": {
+                    "30064771205": "JSON.parse(jsonString)",
+                    "111669149719": "function unsafeDeserialize(jsonString: string) {\n    console.log('Deserializing:', jsonString);\n    const obj = JSON.parse(jsonString);\n\n    // In a vulnerable scenario, a library might do something like this:\n    // if (obj.rce) {\n    //   eval(obj.rce);\n    // }\n\n    console.log('Deserialized object:', obj);\n    return obj;\n}"
+                }
+            },
+            {
+                "sink": {
+                    "id": 30064771248,
+                    "filename": "vul_test/src/network.ts",
+                    "name": "get",
+                    "line": 24
+                },
+                "flows": [
+                    [
+                        {
+                            "id": 111669149737,
+                            "function": "unsafeHttpRequest",
+                            "filename": "vul_test/src/network.ts",
+                            "line": 22
+                        }
+                    ]
+                ],
+                "codes": {
+                    "30064771248": "http.get(url, (res) => {\n        let data = '';\n        res.on('data', (chunk) => {\n            data += chunk;\n        });\n        res.on('end', () => {\n            console.log('Response from server:', data);\n        });\n    })",
+                    "111669149737": "function unsafeHttpRequest(url: string) {\n    // Can be used for SSRF\n    http.get(url, (res) => {\n        let data = '';\n        res.on('data', (chunk) => {\n            data += chunk;\n        });\n        res.on('end', () => {\n            console.log('Response from server:', data);\n        });\n    }).on('error', (err) => {\n        console.error('HTTP request error:', err.message);\n    });\n}"
+                }
+            },
+            {
+                "sink": {
+                    "id": 30064771275,
+                    "filename": "vul_test/src/sql-injection.ts",
+                    "name": "all",
+                    "line": 18
+                },
+                "flows": [
+                    [
+                        {
+                            "id": 111669149745,
+                            "function": "vulnerableQuery",
+                            "filename": "vul_test/src/sql-injection.ts",
+                            "line": 14
+                        }
+                    ]
+                ],
+                "codes": {
+                    "30064771275": "db.all(query, [], (err, rows) => {\n        if (err) {\n            throw err;\n        }\n        console.log('Query results:', rows);\n    })",
+                    "111669149745": "function vulnerableQuery(userId: string) {\n    // SQL Injection vulnerability\n    const query = `SELECT * FROM users WHERE id = ${userId}`;\n    console.log(`Executing query: ${query}`);\n    db.all(query, [], (err, rows) => {\n        if (err) {\n            throw err;\n        }\n        console.log('Query results:', rows);\n    });\n}"
+                }
+            }
+        ]
+    }
+]

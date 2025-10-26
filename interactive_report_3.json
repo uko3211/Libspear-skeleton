@@ -1,0 +1,32 @@
+{
+  "status": "STOPPED_BY_AI",
+  "successful_payload": null,
+  "attempts": [
+    {
+      "payload": "../../etc/passwd||malicious_data",
+      "timestamp": "2025-10-24T19:55:49.132138",
+      "is_successful": false,
+      "execution_log": "\nFuzzing completed!\nTotal executions: 1\nUnique crashes: 1\nCurrent cov    : 100.00%\nMax coverage   : 100.00%\n[INFO] - 발견된 JavaScript 파일: 1개\n  - P_TARGET/P_file-system_30064771115.js\n\n대화형 퍼징 시작: P_TARGET/P_file-system_30064771115.js\nCtrl+C로 종료할 수 있습니다.\n",
+      "analysis_reason": "Fuzzer reported a crash in function 'unsafeFileWrite': EACCES: permission denied, open '/etc/passwd'",
+      "simulated_code": "const fs = require('fs');\nconst path = require('path');\n\nfunction unsafeFileWrite(fileName, data) {\n    // Path traversal vulnerability if fileName is controlled by user\n    const filePath = path.join('/tmp', fileName);\n    fs.writeFileSync(filePath, data);\n    console.log(`Wrote to ${filePath}`);\n}\n\n// Malicious input exploiting path traversal\nconst maliciousInput = '../../etc/passwd||malicious_data';\nunsafeFileWrite(maliciousInput, 'Injected data');",
+      "coverage_percent": 100.0
+    }
+  ],
+  "vulnerability_context": {
+    "project": "file-system",
+    "language": "typescript",
+    "file_path": "vul_test/src/file-system.ts",
+    "function_name": "unsafeFileWrite",
+    "sink": "writeFileSync",
+    "sink_id": "30064771115",
+    "known_weakness": [
+      "Insecure Direct Object Reference"
+    ],
+    "code_context": {
+      "before": "function unsafeFileWrite(fileName: string, data: string) {\n    // Path traversal vulnerability if fileName is controlled by user\n    const filePath = path.join('/tmp', fileName);\n    fs.writeFileSync(filePath, data);\n    console.log(`Wrote to ${filePath}`);\n}",
+      "sinkLine": "fs.writeFileSync(filePath, data)",
+      "after": "",
+      "pseudocode": "const path = require('path');\nconst fs = require('fs');\n\nfunction unsafeFileWrite(fileName, data) {\n    const filePath = path.join('/tmp', fileName);\n    fs.writeFileSync(filePath, data);\n    console.log(`Wrote to ${filePath}`);\n}\n\nmodule.exports = {\n    unsafeFileWrite\n};"
+    }
+  }
+}
